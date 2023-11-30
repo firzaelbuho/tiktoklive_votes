@@ -36,7 +36,7 @@ candidates.forEach(function(candidate) {
 
     <div class="p-3 border mb-3">
         <h3 class ="percentage" >0%</h3>
-        <p class = "votes_received" ><strong>Jumlah vote : 0</strong></p>
+        <p><strong class = "votes_received">Jumlah vote : 0</strong></p>
     </div>
 
     </div>
@@ -53,20 +53,68 @@ const percentage = document.getElementsByClassName("percentage")
 const votes_received = document.getElementsByClassName("votes_received")
 // console.table(votes_received)
 
+const totalVotes = document.getElementById("total_votes")
 const voters = document.getElementById("voters")
 console.info(voters)
 const gifters = document.getElementById("gifters")
 console.info(gifters)
 
+// fungsi sum
+function sumArray(array) {
+    // Menggunakan metode reduce untuk menjumlahkan elemen-elemen array
+    const total = array.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    return total;
+}
+  
+  // Contoh penggunaan fungsi sumArray
+  const numbers = [1, 2, 3, 4, 5];
+  const result = sumArray(numbers);
+  
+  console.log(result); // Output: 15
+  
+// fungsi update display
 
-// URL API yang akan diambil datanya
-const url = 'http://localhost:3000/combo';
+function updatePage(data){
+    voters.innerHTML ="";
+    data.voters.forEach(function(voter){
+        voters.innerHTML += `<p>${voter}</p>`
+    })
 
-// Menggunakan fetch untuk mengambil data dari API
-fetch(url, {
-    method : "GET",
-    mode: 'cors'
-})
+    gifters.innerHTML ="";
+    data.gifters.forEach(function(gifter){
+        gifters.innerHTML += `<p>${gifter}</p>`
+    })
+
+    for(i=0 ; i<candidates.length; i++){
+        votes_received[i].innerHTML = `Jumlah Vote : ${data.votes[i]}`
+        percentage[i].innerHTML = `${Number((data.votes[i] / sumArray(data.votes) * 100).toFixed(2))}%`
+    }
+
+    totalVotes.innerHTML = `Daftar voters valid (${sumArray(data.votes)} votes)`
+}
+
+async function fetchData(){
+
+    // Buat objek Date
+    var currentDate = new Date();
+
+    // Dapatkan timestamp saat ini
+    var timestamp = currentDate.getTime();
+
+    // Cetak timestamp
+    console.log("Timestamp saat ini:", timestamp);
+
+    // URL API yang akan diambil datanya
+    const url = 'http://localhost:3000/combo';
+
+    var headers = {}
+
+    // Menggunakan fetch untuk mengambil data dari API
+    fetch(url, {
+        method : "GET",
+        mode: 'cors',
+        headers: headers
+    })
   .then(response => {
     // Memeriksa apakah respons dari server OK (kode status 200-299)
     if (!response.ok) {
@@ -79,11 +127,21 @@ fetch(url, {
   .then(data => {
     // Menangani data JSON
     console.log('Data dari API:', data);
+    updatePage(data)
+   
+
+    
   })
   .catch(error => {
     // Menangani kesalahan
     console.error('Terjadi kesalahan:', error);
   });
+}
+
+const pollingInterval = setInterval(fetchData, 1000);
+
+
+
 
 
 

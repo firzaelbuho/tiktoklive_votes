@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bootstrap Starter Project</title>
+  <title>Sumulasi Voting Pilpres</title>
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -73,17 +73,24 @@
             </div>
         </div>
         <div class="col-4">
-            <div class="col-12" style="height: 400px;">
-                <strong>
-                    Daftar voters valid (100 votes) :
+            <div class="col-12" >
+                <strong id="total_votes">
+                    Daftar voters valid (0 votes) :
                 </strong>
-                <div class="div" id="voters"></div>
+                <div class="overflow-auto py-3" style="height: 400px;" >
+                    <div id="voters">
+
+                    </div>
+                </div>
             </div>
-            <div class="col-12" style="height: 100px;">
+            <div class="col-12 mt-3">
                <strong>
                     Thanks To :
                </strong>
-               <div class="div" id="gifters"></div>
+               <div class="py-2 overflow-auto"  style="height: 150px;">
+                <div class="div" id="gifters"></div>
+               </div>
+              
             </div>
         </div>
       </div>

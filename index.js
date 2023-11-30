@@ -8,12 +8,12 @@ for (let i = 0; i < candidateNums; i++) {
     votes.push(0);
 }
 
-voters = ["lorem", "ipsum","lorem", "ipsum", "lorem", "ipsum","lorem", "ipsum","lorem", "ipsum","lorem", "ipsum", "lorem", "ipsum","lorem", "ipsum"]
+voters = []
 
-gifters = ["lorem", "ipsum","lorem", "ipsum", "lorem", "ipsum","lorem", "ipsum","lorem", "ipsum","lorem", "ipsum", "lorem", "ipsum","lorem", "ipsum"]
+gifters = []
 
 // Username of someone who is currently live
-let tiktokUsername = "dukunime";
+let tiktokUsername = "dukuntech";
 
 // Create a new wrapper object and pass the username
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
@@ -65,7 +65,16 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
-app.use(cors());
+const corsOptions = {
+    origin: "http://127.0.0.1:5173",
+  };
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
 
 app.get('/votes', (req, res) => {
   res.json(votes);
