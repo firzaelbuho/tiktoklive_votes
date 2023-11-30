@@ -13,7 +13,7 @@ voters = []
 gifters = []
 
 // Username of someone who is currently live
-let tiktokUsername = "dukuntech";
+let tiktokUsername = "yourusername";
 
 // Create a new wrapper object and pass the username
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
@@ -64,6 +64,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 3000;
+const path = require('path');
 
 const corsOptions = {
     origin: "http://127.0.0.1:5173",
@@ -74,6 +75,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
+app.use(express.static('public'));
 
 
 app.get('/votes', (req, res) => {
@@ -95,6 +97,16 @@ app.get('/combo', (req, res) => {
   });
 });
 
+app.get('/home', (req, res) => {
+  // Mengembalikan file HTML
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`);
+  console.log(`buka halaman voting di di http://localhost:${port}/home`);
 });
+
+
+// open html file
+
